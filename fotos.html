@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+
+<title>Nuestra historia 💖</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Inter', sans-serif;
+  background:black;
+  color:white;
+  overflow-y:auto;
+}
+
+/* 🎬 FONDO CINEMATOGRÁFICO */
+.bg{
+  position:fixed;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  filter:blur(35px) brightness(.45);
+  transform:scale(1.3);
+  z-index:-1;
+}
+
+/* CONTENEDOR */
+.wrapper{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:40px 15px 140px;
+}
+
+/* PANEL */
+.cinema{
+  width:100%;
+  max-width:520px;
+  text-align:center;
+}
+
+/* TITULO */
+.title{
+  font-family:'Dancing Script', cursive;
+  font-size:28px;
+  margin-bottom:18px;
+}
+
+/* VISOR */
+.viewer{
+  width:100%;
+  height:420px;
+  border-radius:20px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 25px 60px rgba(0,0,0,.7);
+}
+
+/* IMAGEN (NO RECORTE) */
+.viewer img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  opacity:0;
+  transition:1.2s ease;
+}
+
+/* TEXTO */
+.text{
+  position:absolute;
+  bottom:18px;
+  left:12px;
+  right:12px;
+  font-family:'Dancing Script', cursive;
+  font-size:18px;
+  text-shadow:0 3px 10px black;
+  opacity:0;
+  transform:translateY(20px);
+  transition:.6s;
+}
+
+.text.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* 💔 FINAL */
+.final{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:20px;
+  font-family:'Dancing Script', cursive;
+  font-size:26px;
+  opacity:0;
+  pointer-events:none;
+  transition:1.2s;
+}
+
+.final.show{
+  opacity:1;
+}
+
+/* BOTONES */
+.controls{
+  margin-top:18px;
+}
+
+.btn{
+  background:rgba(255,255,255,.15);
+  color:white;
+  border:none;
+  padding:10px 14px;
+  margin:5px;
+  border-radius:12px;
+}
+
+/* 🎶 AUDIO */
+.music-player{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  padding:10px;
+}
+
+.player-ui{
+  width:95%;
+  max-width:500px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter: blur(15px);
+  border-radius:16px;
+  padding:12px;
+  display:flex;
+  justify-content:center;
+}
+
+.player-ui button{
+  background:#ff6b8a;
+  border:none;
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  color:white;
+}
+
+/* OVERLAY INICIO */
+.start{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Dancing Script';
+  font-size:26px;
+  cursor:pointer;
+  z-index:10;
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg" id="bg"></div>
+
+<!-- INICIO -->
+<div class="start" id="start">
+toca para comenzar 💖
+</div>
+
+<div class="wrapper">
+<div class="cinema">
+
+<div class="title">
+Nuestra historia 💖
+</div>
+
+<div class="viewer">
+  <img id="img">
+  <div class="text" id="text"></div>
+</div>
+
+<div class="controls">
+  <button class="btn" onclick="prev()">⏮</button>
+  <button class="btn" onclick="toggle()">⏯</button>
+  <button class="btn" onclick="next()">⏭</button>
+</div>
+
+</div>
+</div>
+
+<!-- FINAL -->
+<div class="final" id="finalText">
+y aquí fue donde entendí…<br><br>
+que eres tú 🥺💖<br><br>
+y siempre serás tú…
+</div>
+
+<!-- AUDIO -->
+<div class="music-player">
+  <div class="player-ui">
+    <button onclick="toggleMusic()" id="btnPlay">⏸</button>
+  </div>
+
+  <audio id="audio" loop>
+    <source src="Beabadoobee_-_Glue_song_(SkySound.cc).mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<script>
+
+const fotos=[
+"fotos/foto1.jpeg","fotos/foto2.jpeg","fotos/foto3.jpeg",
+"fotos/foto4.jpeg","fotos/foto5.jpeg","fotos/foto6.jpeg",
+"fotos/foto7.jpeg","fotos/foto8.jpeg","fotos/foto9.jpeg",
+"fotos/foto10.jpeg","fotos/foto11.jpeg","fotos/foto12.jpeg",
+"fotos/foto13.jpeg","fotos/foto14.jpeg","fotos/foto15.jpeg"
+];
+
+const frases=[
+"contigo todo se siente diferente 💖",
+"estos momentos… nunca los voy a olvidar 🥺",
+"me haces muy feliz 💘",
+"eres demasiado especial ✨",
+"todo es mejor contigo ❣️",
+"no cambiaría esto por nada 🌙",
+"solo tú logras esto en mí 🥰",
+"quiero más momentos contigo 💕",
+"esto apenas empieza… 💫",
+"eres mi lugar favorito 🫶",
+"me encantas demasiado 💫💗",
+"gracias por existir 🥺",
+"y aquí es donde todo cambió…",
+"te elegiría mil veces 💞",
+"y todas las que faltan ✨"
+];
+
+let i=0;
+let auto=true;
+
+const img=document.getElementById("img");
+const text=document.getElementById("text");
+const bg=document.getElementById("bg");
+const final=document.getElementById("finalText");
+
+function mostrar(){
+
+ if(i===fotos.length-1){
+   setTimeout(()=>{
+     final.classList.add("show");
+   },5500);
+ }
+
+ img.style.opacity=0;
+
+ setTimeout(()=>{
+  img.src=fotos[i];
+  bg.style.backgroundImage=`url(${fotos[i]})`;
+
+  text.classList.remove("show");
+  text.innerText=frases[i];
+
+  setTimeout(()=>text.classList.add("show"),500);
+
+  img.style.opacity=1;
+ },600);
+}
+
+function next(){ i=(i+1)%fotos.length; mostrar(); }
+function prev(){ i=(i-1+fotos.length)%fotos.length; mostrar(); }
+function toggle(){ auto=!auto; }
+
+setInterval(()=>{ 
+  if(auto) next(); 
+},6500); // ⏳ MÁS TIEMPO
+
+mostrar();
+
+/* AUDIO */
+const audio=document.getElementById("audio");
+const btn=document.getElementById("btnPlay");
+
+function toggleMusic(){
+  if(audio.paused){
+    audio.play();
+    btn.innerText="⏸";
+  }else{
+    audio.pause();
+    btn.innerText="▶";
+  }
+}
+
+/* INICIO */
+document.getElementById("start").onclick=()=>{
+  audio.play();
+  document.getElementById("start").style.display="none";
+};
+
+</script>
+
+</body>
+</html>

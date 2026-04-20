@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regalos 💝</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg1:#ffe4ec;
+  --bg2:#f8c7d8;
+  --card:rgba(255,255,255,.25);
+  --accent:#ff4d6d;
+}
+
+/* FONDO CON GATITOS */
+body{
+  margin:0;
+  font-family:'Inter', sans-serif;
+
+  /* 🔥 FONDO MEJORADO */
+  background:
+    linear-gradient(rgba(255,228,236,0.7), rgba(248,199,216,0.8)),
+    url("https://i.pinimg.com/236x/cd/5a/8b/cd5a8bb081eefb69dce88d8099c473cf.jpg");
+
+  background-size: 380px; /* 👈 evita que se estire feo */
+  background-repeat: repeat; /* 👈 patrón bonito */
+  background-position: center;
+
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  overflow:hidden;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  backdrop-filter: blur(1px);
+  z-index:0;
+}
+
+/* asegura que tu contenido esté arriba */
+.container{
+  position:relative;
+  z-index:0;
+}
+
+/* CONTENEDOR */
+.container{
+  width:90%;
+  max-width:420px;
+  animation: fadeIn .8s ease;
+}
+
+/* TITULO */
+h1{
+  color:#ff4d6d;
+  font-size:28px;
+  margin-bottom:25px;
+  text-shadow: 0 3px 10px rgba(0,0,0,.2);
+}
+
+/* GRID */
+.gifts{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:16px;
+}
+
+/* TARJETAS */
+.gift{
+  background: var(--card);
+  backdrop-filter: blur(18px);
+  border-radius:20px;
+  padding:22px 10px;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow: 0 12px 25px rgba(0,0,0,.2);
+  color:#fff;
+  position:relative;
+}
+
+/* EFECTO BRILLO */
+.gift::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:20px;
+  background: linear-gradient(135deg, rgba(255,255,255,.3), transparent);
+  pointer-events:none;
+}
+
+/* ICONO */
+.gift span{
+  font-size:34px;
+  display:block;
+  margin-bottom:6px;
+}
+
+/* TEXTO */
+.gift p{
+  margin:0;
+  font-weight:600;
+  font-size:14px;
+}
+
+/* HOVER */
+.gift:hover{
+  transform: translateY(-6px) scale(1.06);
+}
+
+/* CLICK */
+.gift:active{
+  transform: scale(.95);
+}
+
+/* ANIMACION */
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1;}
+}
+
+/* CORAZONES */
+.heart{
+  position:fixed;
+  top:-20px;
+  animation: fall linear forwards;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh); opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Elige tu regalito 💖</h1>
+
+  <div class="gifts">
+    <div class="gift" onclick="ir('carta.html')">
+      <span>💌</span>
+      <p>Carta</p>
+    </div>
+
+    <div class="gift" onclick="ir('musica.html')">
+      <span>🎶</span>
+      <p>Música</p>
+    </div>
+
+    <div class="gift" onclick="ir('fotos.html')">
+      <span>📸</span>
+      <p>Fotos</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function ir(pagina){
+  document.body.style.opacity="0";
+  setTimeout(()=>{
+    window.location.href = pagina;
+  },300);
+}
+
+/* corazones */
+setInterval(()=>{
+ let h=document.createElement("div");
+ h.className="heart";
+ h.innerText=Math.random()>0.5?"💖":"💗";
+ h.style.left=Math.random()*100+"vw";
+ h.style.animationDuration=(Math.random()*3+3)+"s";
+ document.body.appendChild(h);
+ setTimeout(()=>h.remove(),6000);
+},700);
+</script>
+
+</body>
+</html>
